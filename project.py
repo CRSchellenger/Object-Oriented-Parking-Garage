@@ -26,6 +26,7 @@ parkingSpaces = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
 currentTicket = {}
 import math #dont remove 
 import time #dont remove
+import random
 def taketicket():
         while True:    
             taketicket = input('Please take a ticket by entering take ticket: ')
@@ -50,37 +51,66 @@ def taketicket():
                 print('You must take a ticket to park in this garage')
                         
           
-                
+pay_li = []      
 def payforparking():
-    totaltime = int(input('Please enter how many minutes you were parked: '))
-    time_2 = (totaltime *0.5)
-    statement = print(f'Your total is ${time_2}')
-    pay = input('Would you like to pay now or do you want more time? Please enter pay to pay: ')
-    if pay == 'pay':
-        payment_type = input('Please enter how would like to pay: ')
-        if payment_type == 'cash':
-            print('Thanks for your business please come again')
-        elif payment_type == 'card':
-            print('There is a 2\%\ fee for using card')
-            cont_pay = input('Would you like to continue? ')
-            if cont_pay == 'yes':
-                card = input('Please enter your card details: ')
-                time.sleep(1)       #dont erase this line of code please.
-                print(f'Thanks for your payment of ${time_2}. Please come again')
-                tickets.insert(-1,+1)       # stuck with this one 
-                parkingSpaces.insert(-1,+1) # stuck with this one 
-                print(tickets)
-                print(currentTicket)
-                print(parkingSpaces)
-            elif cont_pay == 'no':
-                print('you may also pay with cash if you wish')
-        elif payment_type == 'check':
-            print("We do not accept checks at this time")
-    else:
-        print('Please come back when you are finsihed')       
-    
+    while True:
+        leave = input('Would you like to leave [Y][N]: ')
+        leave_2 = leave.lower()
+        if leave_2 == 'y':
+            name = input('Please enter your name: ')
+            if name not in currentTicket:
+                print('You dont have a ticket for this garage')
+            if name in currentTicket:
+                totaltime = int(input('Please enter how many minutes you were parked: '))
+                time_2 = (totaltime *0.25)
+                print(f'Your total is ${time_2}')
+                payment_type = input('Please enter how would like to pay: ')
+                if payment_type == 'cash':
+                    print('Please insert cash below.')
+                    time.sleep(0.5)
+                    print('One second please')
+                    time.sleep(2)
+                    print('Thanks for your payment')
+                    tickets.insert(-1,+1)        
+                    parkingSpaces.insert(-1,+1) 
+                elif payment_type == 'card':
+                    print('There is a 2\%\ fee for using card')
+                    cont_pay = input('Would you like to continue? ')
+                    if cont_pay == 'yes':
+                        card = input('Please enter your card number: ')
+                        time.sleep(1)
+                        zip = input('Please enter your zipcode: ')
+                        time.sleep(0.5)
+                        print('processing your payment please wait.....')
+                        time.sleep(1)      #dont erase this line of code please.
+                        pay_confirm = random.randint(0,10000000)
+                        pay_li.append(pay_confirm)
+                        tickets.insert(0,+1)        
+                        parkingSpaces.insert(0,+1) 
+                        print(f'Thanks for your payment of ${time_2}. Your confirmation code is {pay_confirm}')
+                        print(tickets)
+                        print(pay_li)
+                        print(currentTicket)
+                        print(parkingSpaces)
+                    elif cont_pay == 'no':
+                        print('you may also pay with cash if you wish')
+                    else:
+                        print('Error-- please check input and try again')
+                elif payment_type == 'check':
+                    print("We do not accept checks at this time")
+        elif leave_2 == 'quit':
+            break
+        elif leave_2 == 'no':
+            print('Please come back when you are ready to leave')
+
+def leave(pay_li):
+    if pay_li == False:
+        print('You must pay to leave the garage.')
+    if pay_li == True:
+        print ('Thanks for your businesss have a great day.')
 taketicket()
 print(tickets)
 print(currentTicket)
 print(parkingSpaces)
 payforparking()
+leave(pay_li)
